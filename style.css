@@ -1,0 +1,52 @@
+/* body element */
+body {
+    /* set display to flex */
+    display: flex;
+    
+    /* align center in column direction*/
+    align-items: center;
+    flex-direction: column;
+
+    /* hide overflow of x axis */
+    overflow-x: hidden;
+}
+
+/* navbar element */
+nav{
+    /* set width to 100% viewport*/
+    width: 100vw;
+    /* stick to top of page */
+    /* not sure if i need this cause we added class "position-sticky" from bootstrap in the html */
+    position: sticky;
+    top: 0px;
+}
+
+/* div element with id = 'display' */
+div#display{
+    /* set text align to center */
+    text-align: center;
+
+    /* provide a top margin */
+    margin-top: 5000px;
+}
+
+
+/* footer element */
+footer{
+    /* make sure all content is centered */
+    display: flex;
+    justify-content: center;
+    /* set background to black */
+    background-color: black;
+    /* set text-color to white */
+    color: white;
+
+    /* fix to bottom */
+    position: fixed;
+    bottom: 0px;
+
+    /* other style for footer */
+    width: 100vw;
+    margin-top: 50px;
+    padding: 10px;
+}
