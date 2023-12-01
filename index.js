@@ -1,5 +1,12 @@
 //! Const References
 const cart = []
+const SALESTAX = .07;
+const SHIPPINGFEE = .1;
+const USDOLLAR = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+});
+
 
 //Navbar
 const navbar = document.getElementById("navbar");
@@ -13,8 +20,21 @@ const jewelry = navbar.querySelector("#jewelry");
 const clothingMen = navbar.querySelector("#clothingMen");
 const clothingWomen = navbar.querySelector("#clothingWomen");
 
+//Display
 const display = document.getElementById("display");
 
+
+//Modal Links
+const modal = document.querySelector(".modal");
+const tableBody = modal.querySelector("#manifestTableBody");
+const subtotalRow = modal.querySelector("#subtotalRow");
+const taxRow = modal.querySelector("#taxRow");
+const shippingRow = modal.querySelector("#shippingRow");
+const totalRow = modal.querySelector("#totalRow");
+const purchaseButton = modal.querySelector("#purchase");
+
+
+//
 const fakeStoreURLBase = "https://fakestoreapi.com";
 
 
@@ -68,15 +88,60 @@ clothingWomen.addEventListener('click', e => {
 //checkout
 checkoutBtn.addEventListener('click', e => {
     e.preventDefault();
-    console.log("test checkout event");
-    console.log(cart);
+    // console.log("test checkout event");
+    // console.log(cart);
+    displayCart();
     return;
 });
 
 //! Other Functions
 
+const createRow = (quantity, name, unitPrice, totalPrice) => {
+    //Elements
+    let row = document.createElement('tr');
+    let quantityElement = document.createElement('td');
+    let itemElement = document.createElement('td');
+    let priceElement = document.createElement('td');
+    //Attributes
+
+    quantityElement.textContent = quantity;
+    if (name.length > 12){
+        name = name.slice(0,9)+ "...";
+    }
+    itemElement.textContent = `${name} at ${USDOLLAR.format(unitPrice)} ea`;
+    priceElement.textContent = USDOLLAR.format(totalPrice);
+
+    //Package it up
+    row.appendChild(quantityElement);
+    row.appendChild(itemElement);
+    row.appendChild(priceElement);
+
+    //return it
+    return row;
+}
+
+const displayCart = () => {
+    let subtotal = 0;
+    clearChildElements(tableBody);
+    cart.forEach(item => {
+        let totalPrice = item.quantity * item.price;
+        subtotal += totalPrice;
+        let row = createRow(item.quantity, item.title, item.price, totalPrice);
+        tableBody.appendChild(row);
+    })
+    let tax = subtotal * SALESTAX;
+    let shipping = subtotal * SHIPPINGFEE;
+    let total = tax + shipping + subtotal;
+    subtotalRow.textContent = USDOLLAR.format(subtotal);
+    taxRow.textContent = USDOLLAR.format(tax);
+    shippingRow.textContent = USDOLLAR.format(shipping);
+    totalRow.textContent = USDOLLAR.format(total);
+    purchaseButton.textContent = `Purchase for ${USDOLLAR.format(total)}`;
+
+}
+
 const submitCart = (item) => {
-    let itemExists = cart.find(item2 => item2.title === item.title);
+    let itemExists = cart.find(item2 => item2.id === item.id);
     if(itemExists !== undefined){
         itemExists.quantity = itemExists.quantity + 1;
     }
@@ -85,9 +150,9 @@ const submitCart = (item) => {
     }
 }
 
-const clearCards = () => {
-    while (display.firstChild != null){
-        display.removeChild(display.lastChild);
+const clearChildElements = (element) => {
+    while (element.firstChild != null){
+        element.removeChild(element.lastChild);
     }
 }
 const buildAccordionItem = (title,value,collapseVal) => {
@@ -123,11 +188,8 @@ const buildAccordionItem = (title,value,collapseVal) => {
 
 const buildAccordion = (desc, price, countStr) => {
     //Standardize formatting for all
-    let usDollar = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-    });
-    let dollarPrice = usDollar.format(price);
+
+    let dollarPrice = USDOLLAR.format(price);
 
     //Elements
     let accordion = document.createElement('div');
@@ -195,7 +257,7 @@ const buildCard = (item, countStr) => {
 
 const displayCards = (items) => {
     console.log(items);
-    clearCards();
+    clearChildElements(display);
     let count = 1;
     items.forEach(item => {
         count+=1;

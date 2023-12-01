@@ -28,7 +28,8 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li>
-                        <button class="btn btn-success" type="checkout" id="cart">Cart</button>
+                        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#checkout"
+                            id="cart">Cart</button>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="electronics">Electronics</a>
@@ -47,8 +48,63 @@
         </div>
     </nav>
     <div id="display" class="row row-cols-1 row-cols-md-4 g-4">
-        <div class="card">
+    </div>
 
+    <!-- Vertically centered scrollable modal -->
+    <div class="modal fade  modal-dialog-scrollable" id="checkout" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Your Cart</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead class = "table-light">
+                            <tr>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Item</th>
+                                <th scope="col">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id = "manifestTableBody">
+                        </tbody>
+                    </table>
+                    <table class="table" id="total">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Subtotal:</td>
+                                <td id = "subtotalRow">$0.00</td>
+                            </tr>
+                            <tr>
+                                <td>Tax:</td>
+                                <td id = "taxRow">$0.00</td>
+                            </tr>
+                            <tr>
+                                <td>Shipping:</td>
+                                <td id = "shippingRow">$0.00</td>
+                            </tr>
+                            <tr id = "totalRow">
+                                <td>Total:</td>
+                                <td id = "totalRow">$0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="clearCart">Clear
+                        Cart</button>
+                    <button type="button" class="btn btn-success" id="purchase">Purchase for $0.00</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <footer class="footer">

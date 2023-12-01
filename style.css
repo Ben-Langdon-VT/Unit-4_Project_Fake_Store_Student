@@ -19,6 +19,7 @@ nav{
     /* not sure if i need this cause we added class "position-sticky" from bootstrap in the html */
     position: sticky;
     top: 0px;
+    z-index: 10000;
 }
 
 /* div element with id = 'display' */
@@ -28,6 +29,8 @@ div#display{
 
     /* provide a top margin */
     margin-top: 50px;
+
+    margin-bottom: 50px;
 }
 
 
@@ -70,4 +73,16 @@ footer{
     height: 12rem;
     max-width: 12rem;
     align-self: center;
+}
+
+.modal{
+    z-index: 10001;
+}
+
+.modal-footer{
+    justify-content: space-between;
+}
+
+tr#totalRow{
+    background-color: lightgreen;
 }
