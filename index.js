@@ -27,11 +27,12 @@ const display = document.getElementById("display");
 //Modal Links
 const modal = document.querySelector(".modal");
 const tableBody = modal.querySelector("#manifestTableBody");
-const subtotalRow = modal.querySelector("#subtotalRow");
-const taxRow = modal.querySelector("#taxRow");
-const shippingRow = modal.querySelector("#shippingRow");
-const totalRow = modal.querySelector("#totalRow");
-const purchaseButton = modal.querySelector("#purchase");
+const subtotalElement = modal.querySelector("#subtotalElement");
+const taxElement = modal.querySelector("#taxElement");
+const shippingElement = modal.querySelector("#shippingElement");
+const totalElement = modal.querySelector("#totalElement");
+const clearButton = modal.querySelector("#clearCartBtn");
+const purchaseButton = modal.querySelector("#purchaseBtn");
 
 
 //
@@ -61,28 +62,23 @@ electronics.addEventListener('click', e => {
     e.preventDefault();
     // console.log('test electronics event');
     fakeStore("category/electronics");
-    return;
 });
 
 jewelry.addEventListener('click', e => {
     e.preventDefault();
     // console.log('test jewelery event');
     fakeStore("category/jewelery");
-    return;
 });
 
 clothingMen.addEventListener('click', e => {
     e.preventDefault();
     // console.log('test clothingMen event');
     fakeStore("category/men's clothing");
-    return;
 });
 
 clothingWomen.addEventListener('click', e => {
     e.preventDefault();
     // console.log('test clothingWomen event');
-    fakeStore("category/women's clothing");
-    return;
 });
 
 //checkout
@@ -91,10 +87,29 @@ checkoutBtn.addEventListener('click', e => {
     // console.log("test checkout event");
     // console.log(cart);
     displayCart();
-    return;
+});
+
+//modal button events
+clearButton.addEventListener('click', e => {
+    e.preventDefault();
+    console.log("test clearButton")
+    clearArray(cart);
+    displayCart();
+});
+
+purchaseButton.addEventListener('click', e => {
+    e.preventDefault();
+    console.log("test purchaseButton");
+    clearArray(cart);
+    displayCart();
 });
 
 //! Other Functions
+const clearArray = (array) => {
+    while (cart.length > 0){
+        cart.pop();
+    }
+}
 
 const createRow = (quantity, name, unitPrice, totalPrice) => {
     //Elements
@@ -105,8 +120,9 @@ const createRow = (quantity, name, unitPrice, totalPrice) => {
     //Attributes
 
     quantityElement.textContent = quantity;
-    if (name.length > 12){
-        name = name.slice(0,9)+ "...";
+    let maxStrLength = 25;
+    if (name.length > maxStrLength){
+        name = name.slice(0,maxStrLength - 3)+ "...";
     }
     itemElement.textContent = `${name} at ${USDOLLAR.format(unitPrice)} ea`;
     priceElement.textContent = USDOLLAR.format(totalPrice);
@@ -124,18 +140,20 @@ const displayCart = () => {
     let subtotal = 0;
     clearChildElements(tableBody);
     cart.forEach(item => {
-        let totalPrice = item.quantity * item.price;
+        const totalPrice = item.quantity * item.cost;
+        console.log(item.title, totalPrice, item.quantity, item.cost);
         subtotal += totalPrice;
-        let row = createRow(item.quantity, item.title, item.price, totalPrice);
+        let row = createRow(item.quantity, item.title, item.cost, totalPrice);
         tableBody.appendChild(row);
     })
+    console.log(subtotal, USDOLLAR.format(subtotal));
     let tax = subtotal * SALESTAX;
     let shipping = subtotal * SHIPPINGFEE;
     let total = tax + shipping + subtotal;
-    subtotalRow.textContent = USDOLLAR.format(subtotal);
-    taxRow.textContent = USDOLLAR.format(tax);
-    shippingRow.textContent = USDOLLAR.format(shipping);
-    totalRow.textContent = USDOLLAR.format(total);
+    subtotalElement.textContent = USDOLLAR.format(subtotal);
+    taxElement.textContent = USDOLLAR.format(tax);
+    shippingElement.textContent = USDOLLAR.format(shipping);
+    totalElement.textContent = USDOLLAR.format(total);
     purchaseButton.textContent = `Purchase for ${USDOLLAR.format(total)}`;
 
 }
