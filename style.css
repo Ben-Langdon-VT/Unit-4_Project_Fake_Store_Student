@@ -26,11 +26,12 @@ nav{
 div#display{
     /* set text align to center */
     text-align: center;
+    justify-content: center;
 
     /* provide a top margin */
-    margin-top: 50px;
+    margin-top: 25px;
 
-    margin-bottom: 50px;
+    margin-bottom: 25px;
 }
 
 
