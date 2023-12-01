@@ -27,7 +27,7 @@ div#display{
     text-align: center;
 
     /* provide a top margin */
-    margin-top: 5000px;
+    margin-top: 50px;
 }
 
 
@@ -49,4 +49,25 @@ footer{
     width: 100vw;
     margin-top: 50px;
     padding: 10px;
+}
+
+/* Other CSS */
+
+.card{
+    width: 18rem;
+    margin: 2rem;
+    height: fit-content;
+    padding: 0;
+}
+
+.card_top{
+    padding: 1rem;
+}
+
+.card_image{
+    margin: 2rem;
+    margin-top: 0rem;
+    height: 12rem;
+    max-width: 12rem;
+    align-self: center;
 }
