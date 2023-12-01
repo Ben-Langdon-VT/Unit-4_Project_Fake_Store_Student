@@ -79,6 +79,7 @@ clothingMen.addEventListener('click', e => {
 clothingWomen.addEventListener('click', e => {
     e.preventDefault();
     // console.log('test clothingWomen event');
+    fakeStore("category/women's clothing");
 });
 
 //checkout
